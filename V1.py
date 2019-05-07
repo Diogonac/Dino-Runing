@@ -9,6 +9,8 @@ Email: laurabp@al.insper.edu.br
 
 # Importando as bibliotecas necessárias.
 import pygame
+import random
+import time
 from os import path
 
 # Estabelece a pasta que contem as figuras.
@@ -63,6 +65,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.space = 0
             
 
+
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -71,7 +74,11 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
+<<<<<<< HEAD
+pygame.display.set_caption("Dino")
+=======
 pygame.display.set_caption("Dino Run")
+>>>>>>> abfd79d13336e2087391a6530ae9ac5d600df083
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
