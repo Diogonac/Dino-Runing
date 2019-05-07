@@ -7,6 +7,8 @@ Email: diogonac@al.insper.edu.br
 
 # Importando as bibliotecas necessárias.
 import pygame
+import random
+import time
 from os import path
 
 # Estabelece a pasta que contem as figuras.
@@ -51,6 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
 
+
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -59,7 +62,7 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
-pygame.display.set_caption("Navinha")
+pygame.display.set_caption("Dino")
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
