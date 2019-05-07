@@ -1,8 +1,10 @@
 """
 Insper
-Author: Diogo Nobre de Araujo Cintra
-Graduated in Mechanical Engineering
+Authors: Diogo Nobre de Araujo Cintra, Luís Eduardo Satou Ferreira Pinheiro and Laura Batman Perim
+Graduating in Mechanical Engineering, Mechatronical Engineering and Computer Engineering
 Email: diogonac@al.insper.edu.br
+Email: luisesfp@al.insper.edu.br
+Email: laurabp@al.insper.edu.br
 """
 
 # Importando as bibliotecas necessárias.
@@ -52,6 +54,16 @@ class Player(pygame.sprite.Sprite):
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
+        
+        self.speedy = 0
+        
+    def update(self):
+        self.rect.y += self.speedy
+        if self.rect.space > HEIGHT:
+            self.rect.space = HEIGHT
+        if self.rect.space < 0:
+            self.rect.space = 0
+            
 
 
 # Inicialização do Pygame.
@@ -62,7 +74,11 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
+<<<<<<< HEAD
 pygame.display.set_caption("Dino")
+=======
+pygame.display.set_caption("Dino Run")
+>>>>>>> abfd79d13336e2087391a6530ae9ac5d600df083
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
@@ -92,10 +108,26 @@ try:
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get():
             
-            # Verifica se foi fechado
+            # Verifica se foi fechado.
             if event.type == pygame.QUIT:
                 running = False
-    
+            
+            # Verifica se apertou alguma tecla.
+            if event.type == pygame.KEYDOWN:
+                # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.SPACE:
+                    player.speedy = 30
+                    
+            # Verifica se soltou alguma tecla.
+            if event.type == pygame.KEYUP:
+                # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.SPACE:
+                    player.speedy = 0
+            
+        # Depois de processar os eventos.
+        # Atualiza a acao de cada sprite.
+        all_sprites.update()
+            
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
@@ -103,6 +135,8 @@ try:
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
+    
+
         
 finally:
     pygame.quit()
