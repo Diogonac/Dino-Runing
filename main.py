@@ -79,8 +79,10 @@ class Game:
 
     def draw(self):
         # Game Loop - draw
-        self.screen.fill(BLACK)
-        self.all_sprites.draw(self.screen)
+        #self.screen.fill(BLACK)
+        #self.all_sprites.draw(self.screen)
+        fundo = pg.image.load(path.join(img_dir, "starfield.png")).convert()
+        self.image = fundo
         # *after* drawing everything, flip the display
         pg.display.flip()
 
