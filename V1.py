@@ -79,11 +79,10 @@ pg.display.set_caption("Dino Run")
 clock = pg.time.Clock()
 
 # carregue a imagem do fundo e coloque no background
-background1 = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-background_rect1 = background1.get_rect()
-
-background2 = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-background_rect2 = background2.get_rect()
+background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
+background_rect1 = background.get_rect()
+background_rect2 = background.get_rect()
+background_rect1.x = WIDTH
 
 player = Player()
 all_sprites = pg.sprite.Group()
@@ -137,15 +136,17 @@ try:
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         
-        background_rect1.x -=3
-                
-        screen.blit(background1, background_rect1)
-        if background_rect1.x == -500:
-            background_rect2.x -=3
-            screen.blit(background2, background_rect2)
 
-            
+
+
+        background_rect1.x -=3              
+        background_rect2.x -=3
+        screen.blit(background, background_rect1)
+        screen.blit(background, background_rect2)
+
+#x negatico é fora da tela         
         print(background_rect1.x)
+        
         all_sprites.draw(screen)
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
