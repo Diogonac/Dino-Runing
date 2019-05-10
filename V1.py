@@ -80,10 +80,10 @@ clock = pg.time.Clock()
 
 # carregue a imagem do fundo e coloque no background
 background1 = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-background_rect1 = background.get_rect()
+background_rect1 = background1.get_rect()
 
 background2 = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-background_rect2 = background.get_rect()
+background_rect2 = background2.get_rect()
 
 player = Player()
 all_sprites = pg.sprite.Group()
