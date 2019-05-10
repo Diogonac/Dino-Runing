@@ -29,11 +29,11 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         player_img = pg.image.load(path.join(img_dir, "Dino.png")).convert()
         self.image = player_img
-        self.image = pg.transform.scale(player_img, (50, 38))
+        self.image = pg.transform.scale(player_img, (100, 100))
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 10
+        self.rect.bottom = HEIGHT - 25
         self.speedy = 0
         
     def update(self):
@@ -77,8 +77,14 @@ img_dir = path.join(path.dirname(__file__), 'img')
 
 pg.display.set_caption("Dino Run")
 clock = pg.time.Clock()
-background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-background_rect = background.get_rect()
+
+# carregue a imagem do fundo e coloque no background
+background1 = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
+background_rect1 = background.get_rect()
+
+background2 = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
+background_rect2 = background.get_rect()
+
 player = Player()
 all_sprites = pg.sprite.Group()
 all_sprites.add(player)
@@ -119,7 +125,7 @@ try:
             if event.type == pg.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pg.K_SPACE:
-                    player.speedy = 11.5        
+                    player.speedy = -10       
             # Verifica se soltou alguma tecla.
             if event.type == pg.KEYUP:
                 # Dependendo da tecla, altera a velocidade.
@@ -129,8 +135,9 @@ try:
         # Atualiza a acao de cada sprite.
         all_sprites.update()
         # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        screen.blit(background, background_rect)
+        screen.blit(background1)
+        background_rect1.x -=5
+        screen.blit(background1, background_rect1)
         all_sprites.draw(screen)
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
