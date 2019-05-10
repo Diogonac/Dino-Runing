@@ -135,9 +135,17 @@ try:
         # Atualiza a acao de cada sprite.
         all_sprites.update()
         # A cada loop, redesenha o fundo e os sprites
-        screen.blit(background1)
-        background_rect1.x -=5
+        screen.fill(BLACK)
+        
+        background_rect1.x -=3
+                
         screen.blit(background1, background_rect1)
+        if background_rect1.x == -500:
+            background_rect2.x -=3
+            screen.blit(background2, background_rect2)
+
+            
+        print(background_rect1.x)
         all_sprites.draw(screen)
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
