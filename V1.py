@@ -9,6 +9,8 @@ Email: laurabp@al.insper.edu.br
 
 # Importando as bibliotecas necessárias.
 import pygame
+import random
+import time
 from os import path
 
 # Estabelece a pasta que contem as figuras.
@@ -63,6 +65,34 @@ class Player(pygame.sprite.Sprite):
             self.rect.space = 0
             
 
+
+class Mob(pygame.sprite.Sprite):
+    #construtor da classe
+    def __init__(self):
+        #construtor classe pai
+        pygame.sprite.image.sprite.__init__(self)
+        #carregando imagem de fundo
+        player_img = pygame.image.load(path.join(img_dir, "layerShip1_orangpe.png")).convert()
+        self.image = player_img
+        #diminuindo tamanho da imagem
+        self.image = pygame.transform.scale(player_img, (40, 32))
+        #detalhes posicao
+        self.rect=self.image.get_rect()
+        #sorteia lugar inicial em x
+        self.rect.x=random.randrange(WIDTH - self.rect.width)
+        #sorteia lugar y
+        self.rect.y=random.randrange(WIDTH - self.rect.width)
+        #sorteia velocidade inicial
+        self.speedx=random.randrange(1,5)
+        self.speedy=random.randrange(-1,1)
+        #se as plantas passarem da tela volta para o lado
+        if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.righ > WIDTH + 20:
+           self.rect.x = random. randrange (WIDTH - self.rect.width)
+           self.rect.y=random. randrange (-100, -40)
+           self.speedx = random.randrange(-3, 3)
+           self.speedy = random.randrange(2, 9)
+            
+            
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -71,7 +101,11 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
+<<<<<<<HEAD
+pygame.display.set_caption("Dino")
+=======
 pygame.display.set_caption("Dino Run")
+>>>>>>> abfd79d13336e2087391a6530ae9ac5d600df083
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
@@ -109,7 +143,7 @@ try:
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.SPACE:
-                    player.speedy = 30
+                    player.speedy = 10
                     
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
