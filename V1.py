@@ -8,18 +8,32 @@ Email: laurabp@al.insper.edu.br
 """
 
 # Importando as bibliotecas necessárias.
-import pygame
+import pygame as pg
 from os import path
+import random
 
-# Estabelece a pasta que contem as figuras.
-img_dir = path.join(path.dirname(__file__), 'img')
+# Inicialização do Pygame.
+pg.init()
+pg.mixer.init()
 
-# Dados gerais do jogo.
 WIDTH = 600 # Largura da tela
 HEIGHT = 350 # Altura da tela
 FPS = 60 # Frames por segundo
+GRAVITY = 0.6
 
-# Define algumas variáveis com as cores básicas
+screen = pg.display.set_mode((WIDTH, HEIGHT))
+
+
+pg.display.set_caption("Dino Run")
+clock = pg.time.Clock()
+background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
+background_rect = background.get_rect()
+player = Player()
+all_sprites = pg.sprite.Group()
+all_sprites.add(player)
+img_dir = path.join(path.dirname(__file__), 'img')
+
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -27,100 +41,63 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-# Classe Jogador que representa a nave
-class Player(pygame.sprite.Sprite):
-    # Construtor da classe.
+
+
+class Player(pg.sprite.Sprite):
     def __init__(self):
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Dino.png")).convert()
+        pg.sprite.Sprite.__init__(self)
+        player_img = pg.image.load(path.join(img_dir, "Dino.png")).convert()
         self.image = player_img
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 38))
-        # Deixando transparente.
+        self.image = pg.transform.scale(player_img, (50, 38))
         self.image.set_colorkey(BLACK)
-        # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedy = 0
+        
     def update(self):
         self.rect.y += self.speedy
-        if self.rect.space > HEIGHT:
-            self.rect.space = HEIGHT
-        if self.rect.space < 0:
-            self.rect.space = 0
+        if self.rect.y > HEIGHT:
+            self.rect.y = HEIGHT
+        if self.rect.y < 0:
+            self.rect.y = 0
             
 
-# Inicialização do Pygame.
-pygame.init()
-pygame.mixer.init()
-
-# Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# Nome do jogo
-pygame.display.set_caption("Dino Run")
-
-# Variável para o ajuste de velocidade
-clock = pygame.time.Clock()
-
-# Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
-background_rect = background.get_rect()
 
 
-# Cria uma nave. O construtor será chamado automaticamente.
-player = Player()
 
-# Cria um grupo de sprites e adiciona a nave.
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
-
-# Comando para evitar travamentos.
-try:
-    
+try: 
     # Loop principal.
     running = True
     while running:
-        
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
-        
         # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
-            
+        for event in pg.event.get():
             # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
+            if event.type == pg.QUIT:
                 running = False
-            
             # Verifica se apertou alguma tecla.
-            if event.type == pygame.KEYDOWN:
+            if event.type == pg.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.SPACE:
-                    player.speedy = 30
-                    
+                if event.key == pg.K_SPACE:
+                    player.speedy = 11.5        
             # Verifica se soltou alguma tecla.
-            if event.type == pygame.KEYUP:
+            if event.type == pg.KEYUP:
                 # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.SPACE:
+                if event.key == pg.K_SPACE:
                     player.speedy = 0
-            
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
-            
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
-        
         # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
+        pg.display.flip()
     
 
         
 finally:
-    pygame.quit()
+    pg.quit()
