@@ -138,12 +138,17 @@ try:
         
 
 
-
+        
+       
         background_rect1.x -=3              
         background_rect2.x -=3
         screen.blit(background, background_rect1)
         screen.blit(background, background_rect2)
-
+        if background_rect1.x<0:
+            background_rect1.x=WIDTH
+            background_rect2.x = 0
+      
+        
 #x negatico é fora da tela         
         print(background_rect1.x)
         
