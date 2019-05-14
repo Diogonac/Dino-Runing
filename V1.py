@@ -170,7 +170,7 @@ try:
         screen.blit(background, background_rect1)
         screen.blit(background, background_rect2)
         if background_rect1.x<0:
-            background_rect1.x=WIDTH
+            background_rect1.x = WIDTH
             background_rect2.x = 0
       
         
