@@ -46,9 +46,9 @@ class Player(pg.sprite.Sprite):
 
 class Mob(pg.sprite.Sprite):
     #construtor da classe
-    def __init__(self):
+    def __init__(self, px, py):
         #construtor classe pai
-        pg.sprite.image.sprite.__init__(self)
+        pg.sprite.Sprite.__init__(self)
         #carregando imagem de fundo
         player_img = pg.image.load(path.join(img_dir, "cacto.png")).convert()
         self.image = player_img
@@ -57,18 +57,22 @@ class Mob(pg.sprite.Sprite):
         #detalhes posicao
         self.rect=self.image.get_rect()
         #sorteia lugar inicial em x
-        self.rect.x=random.randrange(WIDTH - self.rect.width)
+        self.rect.x=px
         #sorteia lugar y
-        self.rect.y=random.randrange(WIDTH - self.rect.width)
+        self.rect.y=py
         #sorteia velocidade inicial
         self.speedx=random.randrange(1,5)
         self.speedy=random.randrange(-1,1)
         #se as plantas passarem da tela volta para o lado
-        if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.righ > WIDTH + 20:
+        if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
            self.rect.x = random. randrange (WIDTH - self.rect.width)
            self.rect.y=random. randrange (-100, -40)
-           self.speedx = random.randrange(-3, 3)
+           self.speedx = random.randrange(-3, 3,10)
            self.speedy = random.randrange(2, 9)
+           self.rect.bottom=HEIGHT -8
+           self.rect.centerx = WIDTH / 2
+           
+           
             
 
 screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -83,6 +87,11 @@ player = Player()
 all_sprites = pg.sprite.Group()
 all_sprites.add(player)
 
+mobs = pg.sprite.Group()
+for i in range(3):
+    m = Mob(random.randint(1, WIDTH), 260)
+    all_sprites.add(m)
+#    mobs.add(m)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
