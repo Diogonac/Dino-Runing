@@ -11,7 +11,7 @@ Email: laurabp@al.insper.edu.br
 import pygame as pg
 from os import path
 import random
-vec = pg.math.Vector2
+
 
 # Inicialização do Pygame.
 pg.init()
@@ -36,8 +36,6 @@ class Player(pg.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 25
         self.speedy = -12
-        self.vel = vec(0,0)
-        self.acc = vec(0,0)
         
     def update(self):
         self.rect.y += self.speedy
@@ -45,12 +43,7 @@ class Player(pg.sprite.Sprite):
             self.rect.y = HEIGHT
         if self.rect.y < 0:
             self.rect.y = 0
-        self.acc = vec(0, PLAYER_GRAV)
-        keys = pg.key.get_pressed()
-        if keys[pg.K_LEFT]:
-            self.acc.x = -PLAYER_ACC
-        if keys[pg.K_RIGHT]:
-            self.acc.x = PLAYER_ACC    
+            
         
             
 
@@ -71,11 +64,10 @@ class Mob(pg.sprite.Sprite):
         #sorteia lugar y
         self.rect.y=py
         #sorteia velocidade inicial
-<<<<<<< HEAD
+
         self.speedx= 0
         self.speedy= -3
-=======
-<<<<<<< HEAD
+
         self.speedx=-3
         self.speedy= -3
         
@@ -87,12 +79,12 @@ class Mob(pg.sprite.Sprite):
         if background_rect1.x<0:
             background_rect1.x=WIDTH
             background_rect2.x = 0
-=======
+
         self.speedx= 3
         self.speedy= 0
         
 
->>>>>>> fc9d43cd6a5554de273350b3b98a57d2788a53b4
+
         self.image.set_colorkey(WHITE)
          
         #Mob_rect1.x -=3              
@@ -101,13 +93,10 @@ class Mob(pg.sprite.Sprite):
         #screen.blit(background, background_rect2)
         #if background_rect1.x<0:
          ##   background_rect2.x = 0
-<<<<<<< HEAD
+
     def update(self):
         self.rect.x += self.speedy
-=======
->>>>>>> 6d24c941709aea12667cf7c8a8273ee7e4b6ee13
-      
->>>>>>> fc9d43cd6a5554de273350b3b98a57d2788a53b4
+
         
         #se as plantas passarem da tela volta para o lado
         if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
