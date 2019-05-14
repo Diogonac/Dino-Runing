@@ -11,6 +11,7 @@ Email: laurabp@al.insper.edu.br
 import pygame as pg
 from os import path
 import random
+vec = pg.math.Vector2
 
 # Inicialização do Pygame.
 pg.init()
@@ -34,7 +35,9 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 25
-        self.speedy = 0
+        self.speedy = -12
+        self.vel = vec(0,0)
+        self.acc = vec(0,0)
         
     def update(self):
         self.rect.y += self.speedy
@@ -42,6 +45,13 @@ class Player(pg.sprite.Sprite):
             self.rect.y = HEIGHT
         if self.rect.y < 0:
             self.rect.y = 0
+        self.acc = vec(0, PLAYER_GRAV)
+        keys = pg.key.get_pressed()
+        if keys[pg.K_LEFT]:
+            self.acc.x = -PLAYER_ACC
+        if keys[pg.K_RIGHT]:
+            self.acc.x = PLAYER_ACC    
+        
             
 
 class Mob(pg.sprite.Sprite):
@@ -139,27 +149,17 @@ try:
     # Loop principal.
     running = True
     while running:
-        # Ajusta a velocidade do jogo.
         clock.tick(FPS)
-        # Processa os eventos (mouse, teclado, botão, etc).
         for event in pg.event.get():
-            # Verifica se foi fechado.
             if event.type == pg.QUIT:
                 running = False
-            # Verifica se apertou alguma tecla.
             if event.type == pg.KEYDOWN:
-                # Dependendo da tecla, altera a velocidade.
                 if event.key == pg.K_SPACE:
                     player.speedy = -10       
-            # Verifica se soltou alguma tecla.
             if event.type == pg.KEYUP:
-                # Dependendo da tecla, altera a velocidade.
                 if event.key == pg.K_SPACE:
                     player.speedy = 0
-        # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite.
         all_sprites.update()
-        # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         
 
