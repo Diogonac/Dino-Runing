@@ -64,6 +64,7 @@ class Mob(pg.sprite.Sprite):
         #sorteia lugar y
         self.rect.y=py
         #sorteia velocidade inicial
+<<<<<<< HEAD
 
         self.speedx= 0
         self.speedy= -3
@@ -85,6 +86,13 @@ class Mob(pg.sprite.Sprite):
         
 
 
+=======
+        self.speedx= 0
+        self.speedy= -3
+
+
+
+>>>>>>> 4f6f9a972df1d5817a5d4ea58e240c192a8f2136
         self.image.set_colorkey(WHITE)
          
         #Mob_rect1.x -=3              
@@ -132,7 +140,7 @@ all_sprites = pg.sprite.Group()
 all_sprites.add(player)
 
 mob = pg.sprite.Group()
-for i in range(3):
+for i in range(4):
     mobs = Mob(random.randint(1, WIDTH), 260)
     all_sprites.add(mob)
     mob.add(mobs)
