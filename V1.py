@@ -61,6 +61,7 @@ class Mob(pg.sprite.Sprite):
         #sorteia lugar y
         self.rect.y=py
         #sorteia velocidade inicial
+<<<<<<< HEAD
         self.speedx=-3
         self.speedy= -3
         
@@ -72,6 +73,20 @@ class Mob(pg.sprite.Sprite):
         if background_rect1.x<0:
             background_rect1.x=WIDTH
             background_rect2.x = 0
+=======
+        self.speedx= 3
+        self.speedy= 0
+        
+
+        self.image.set_colorkey(WHITE)
+         
+        #Mob_rect1.x -=3              
+        #background_rect2.x -=3
+        #screen.blit(background, background_rect1)
+        #screen.blit(background, background_rect2)
+        #if background_rect1.x<0:
+         ##   background_rect2.x = 0
+>>>>>>> 6d24c941709aea12667cf7c8a8273ee7e4b6ee13
       
         
         #se as plantas passarem da tela volta para o lado
@@ -170,7 +185,7 @@ try:
         screen.blit(background, background_rect1)
         screen.blit(background, background_rect2)
         if background_rect1.x<0:
-            background_rect1.x=WIDTH
+            background_rect1.x = WIDTH
             background_rect2.x = 0
       
         
