@@ -60,12 +60,16 @@ class Mob(pg.sprite.Sprite):
         self.rect.x=px
         #sorteia lugar y
         self.rect.y=py
+<<<<<<< HEAD
         #sorteia velocidade inicial
         self.speedx= 3
         self.speedy= 0
         
+=======
+        self.image.set_colorkey(WHITE)
+>>>>>>> 11978ef139b79b9d1f06310a0568a4c5227ad31f
          
-        background_rect1.x -=3              
+        Mob_rect1.x -=3              
         background_rect2.x -=3
         screen.blit(background, background_rect1)
         screen.blit(background, background_rect2)
