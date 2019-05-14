@@ -61,8 +61,8 @@ class Mob(pg.sprite.Sprite):
         #sorteia lugar y
         self.rect.y=py
         #sorteia velocidade inicial
-        self.speedx=-3
-        self.speedy= -3
+        self.speedx= 3
+        self.speedy= 0
         
          
         background_rect1.x -=3              
