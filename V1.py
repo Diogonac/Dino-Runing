@@ -60,10 +60,10 @@ class Mob(pg.sprite.Sprite):
         #construtor classe pai
         pg.sprite.Sprite.__init__(self)
         #carregando imagem de fundo
-        player_img = pg.image.load(path.join(img_dir, "cacto.png")).convert()
-        self.image = player_img
+        mob_img = pg.image.load(path.join(img_dir, "cacto.png")).convert()
+        self.image = mob_img
         #diminuindo tamanho da imagem
-        self.image = pg.transform.scale(player_img, (40, 32))
+        self.image = pg.transform.scale(mob_img, (40, 32))
         #detalhes posicao
         self.rect=self.image.get_rect()
         #sorteia lugar inicial em x
@@ -71,10 +71,28 @@ class Mob(pg.sprite.Sprite):
         #sorteia lugar y
         self.rect.y=py
         #sorteia velocidade inicial
+<<<<<<< HEAD
+        self.speedx= 0
+        self.speedy= -3
+=======
+<<<<<<< HEAD
+        self.speedx=-3
+        self.speedy= -3
+        
+         
+        background_rect1.x -=3              
+        background_rect2.x -=3
+        screen.blit(background, background_rect1)
+        screen.blit(background, background_rect2)
+        if background_rect1.x<0:
+            background_rect1.x=WIDTH
+            background_rect2.x = 0
+=======
         self.speedx= 3
         self.speedy= 0
         
 
+>>>>>>> fc9d43cd6a5554de273350b3b98a57d2788a53b4
         self.image.set_colorkey(WHITE)
          
         #Mob_rect1.x -=3              
@@ -83,17 +101,22 @@ class Mob(pg.sprite.Sprite):
         #screen.blit(background, background_rect2)
         #if background_rect1.x<0:
          ##   background_rect2.x = 0
+<<<<<<< HEAD
+    def update(self):
+        self.rect.x += self.speedy
+=======
+>>>>>>> 6d24c941709aea12667cf7c8a8273ee7e4b6ee13
       
+>>>>>>> fc9d43cd6a5554de273350b3b98a57d2788a53b4
         
         #se as plantas passarem da tela volta para o lado
         if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
-           self.rect.x = random. randrange (WIDTH - self.rect.width)
-           self.rect.y=random. randrange (-100, -40)
-           self.speedx = random.randrange(-3,10)
-           self.speedy = random.randrange(2, 9)
-           self.rect.bottom=HEIGHT -8
-           self.rect.centerx = WIDTH / 2
+           self.rect.x = 20
+           self.rect.y= -20
+           self.rect.bottom=295
+           self.rect.centerx = WIDTH 
            
+      
          
              
    
@@ -119,11 +142,14 @@ player = Player()
 all_sprites = pg.sprite.Group()
 all_sprites.add(player)
 
-mobs = pg.sprite.Group()
+mob = pg.sprite.Group()
 for i in range(3):
-    m = Mob(random.randint(1, WIDTH), 260)
-    all_sprites.add(m)
-#    mobs.add(m)
+    mobs = Mob(random.randint(1, WIDTH), 260)
+    all_sprites.add(mob)
+    mob.add(mobs)
+
+    
+    
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
