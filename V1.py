@@ -35,14 +35,23 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 25
-        self.speedy = -12
+        self.speedy = 0
+        self.pulando = False
         
     def update(self):
         self.rect.y += self.speedy
-        if self.rect.y > HEIGHT:
-            self.rect.y = HEIGHT
-        if self.rect.y < 0:
-            self.rect.y = 0
+        if self.speedy < 0 and self.pulando:
+            self.speedy += 2
+        elif self.pulando:
+            self.speedy -= 2
+        elif self.speedy < -10:
+            self.speedy = 0
+            self.pulando = False
+            
+#        if self.rect.y > HEIGHT:
+#            self.rect.y = HEIGHT
+#        if self.rect.y < 0:
+#            self.rect.y = 0
             
         
             
@@ -64,35 +73,13 @@ class Mob(pg.sprite.Sprite):
         #sorteia lugar y
         self.rect.y=py
         #sorteia velocidade inicial
-<<<<<<< HEAD
-
-        self.speedx= 0
-        self.speedy= -3
-
-        self.speedx=-3
-        self.speedy= -3
-        
-         
-        background_rect1.x -=3              
-        background_rect2.x -=3
-        screen.blit(background, background_rect1)
-        screen.blit(background, background_rect2)
-        if background_rect1.x<0:
-            background_rect1.x=WIDTH
-            background_rect2.x = 0
-
-        self.speedx= 3
-        self.speedy= 0
-        
 
 
-=======
         self.speedx= 0
         self.speedy= -3
 
 
 
->>>>>>> 4f6f9a972df1d5817a5d4ea58e240c192a8f2136
         self.image.set_colorkey(WHITE)
          
         #Mob_rect1.x -=3              
@@ -178,7 +165,8 @@ try:
                 running = False
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
-                    player.speedy = -10       
+                    player.pulando = True
+                    player.speedy = -11     
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
                     player.speedy = 0
