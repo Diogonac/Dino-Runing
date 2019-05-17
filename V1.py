@@ -106,9 +106,9 @@ class Vida(pg.sprite.Sprite):
         #detalhes posicao
         self.rect=self.image.get_rect()
         #sorteia lugar inicial em x
-        self.rect.x=20
+        self.rect.centerx=WIDTH
         #sorteia lugar y
-        self.rect.y=-20
+        self.rect.bottom=295
         #sorteia velocidade inicial
         self.speedx= 0
         self.speedy= -3
@@ -119,12 +119,12 @@ class Vida(pg.sprite.Sprite):
     def update(self):
         self.rect.x += self.speedy 
         #se as plantas passarem da tela volta para o lado
-        if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
-           self.rect.x = 20
-           self.rect.y= -20
-           self.rect.bottom=295
-           self.rect.centerx = WIDTH            
-        
+        if self.rect.x < -25:
+           #self.rect.x = 20
+           #self.rect.y= -20
+           #self.rect.bottom=295
+           #self.rect.centerx = WIDTH            
+           self.kill()
 
          
              
@@ -184,8 +184,9 @@ pg.display.set_caption("Dino Run")
 clock = pg.time.Clock()
 
 cont = 0
+cont1 =0
 intervalo = randint(FPS//2, 3*FPS)
-prob_vida = randint(0,500) 
+prob_vida = randint(60,240) 
 try: 
     # Loop principal.
     running = True
@@ -212,6 +213,7 @@ try:
             pass
             #running = False
         cont += 1
+        cont1 += 1
         
         if cont == intervalo:
             mob = Mob(WIDTH, 260)
@@ -230,12 +232,13 @@ try:
       
         
 #x negatico é fora da tela 
-        if cont == prob_vida:
+        
+        if cont1 == prob_vida:
             vida = Vida(WIDTH, 260)
             all_sprites.add(vida)
             all_vida.add(vida)
-            cont = 0
-            prob_vida = randint(0,500)
+            cont1 = 0
+            prob_vida = randint(60,240)
             
 
         
