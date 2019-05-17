@@ -40,7 +40,15 @@ class Player(pg.sprite.Sprite):
         
     def update(self):
         self.rect.y += self.speedy
-        if self.speedy < 0: #and self.pulando:
+
+
+        if self.rect.y > HEIGHT:
+            self.rect.y = HEIGHT
+        if self.rect.y < 0:
+            self.rect.y = 0
+   
+
+        if self.speedy < 0 and self.pulando:
             self.speedy += 2
         elif self.pulando:
             self.speedy -= 2    
@@ -55,6 +63,7 @@ class Player(pg.sprite.Sprite):
 #        if self.rect.y < 0:
 #            self.rect.y = 0
             
+
         
             
 
@@ -74,16 +83,27 @@ class Mob(pg.sprite.Sprite):
         self.rect.x=px
         #sorteia lugar y
         self.rect.y=py
+ 
         #sorteia velocidade inicial
-
 
         self.speedx= 0
         self.speedy= -3
 
 
 
+     
+
         self.image.set_colorkey(WHITE)
-         
+        
+        
+           # Verifica se houve colisão entre o player e a  planta
+        #hits = pg.sprite.spritecollide(player, mob, False, pg.sprite.collide_circle)
+        #if hits:
+            #return False
+        #    pass
+            
+           
+                    
         #Mob_rect1.x -=3              
         #background_rect2.x -=3
         #screen.blit(background, background_rect1)
@@ -125,14 +145,17 @@ background_rect2 = background.get_rect()
 background_rect1.x = WIDTH
 
 player = Player()
+all_players = pg.sprite.Group()
+all_players.add(player)
+
 all_sprites = pg.sprite.Group()
 all_sprites.add(player)
 
-mob = pg.sprite.Group()
-for i in range(4):
-    mobs = Mob(random.randint(1, WIDTH), 260)
+all_mobs = pg.sprite.Group()
+for i in range(1):
+    mob = Mob(WIDTH, 260)
     all_sprites.add(mob)
-    mob.add(mobs)
+    all_mobs.add(mob)
 
     
     
@@ -155,7 +178,8 @@ pg.display.set_caption("Dino Run")
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
 
-
+cont = 0
+intervalo = random.randint(FPS//2, 3*FPS)
 
 try: 
     # Loop principal.
@@ -175,9 +199,18 @@ try:
         all_sprites.update()
         screen.fill(BLACK)
         
-
-
+        hits = pg.sprite.groupcollide(all_players, all_mobs, False, True)
+        if hits:
+            pass
+            #running = False
+        cont += 1
         
+        if cont == intervalo:
+            mob = Mob(WIDTH, 260)
+            all_sprites.add(mob)
+            all_mobs.add(mob)
+            cont = 0
+            intervalo = random.randint(FPS//2, FPS)
        
         background_rect1.x -=3              
         background_rect2.x -=3
