@@ -10,8 +10,7 @@ Email: laurabp@al.insper.edu.br
 # Importando as bibliotecas necessárias.
 import pygame as pg
 from os import path
-import random
-
+from random import randint
 
 # Inicialização do Pygame.
 pg.init()
@@ -80,46 +79,53 @@ class Mob(pg.sprite.Sprite):
         self.rect.x=px
         #sorteia lugar y
         self.rect.y=py
- 
         #sorteia velocidade inicial
-
         self.speedx= 0
         self.speedy= -3
-
-
-
-     
-
         self.image.set_colorkey(WHITE)
-        
-        
-           # Verifica se houve colisão entre o player e a  planta
-        #hits = pg.sprite.spritecollide(player, mob, False, pg.sprite.collide_circle)
-        #if hits:
-            #return False
-        #    pass
-            
-           
-                    
-        #Mob_rect1.x -=3              
-        #background_rect2.x -=3
-        #screen.blit(background, background_rect1)
-        #screen.blit(background, background_rect2)
-        #if background_rect1.x<0:
-         ##   background_rect2.x = 0
-
     def update(self):
-        self.rect.x += self.speedy
-
-        
+        self.rect.x += self.speedy 
         #se as plantas passarem da tela volta para o lado
         if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
            self.rect.x = 20
            self.rect.y= -20
            self.rect.bottom=295
            self.rect.centerx = WIDTH 
-           
-      
+
+class Vida(pg.sprite.Sprite):
+    #construtor da classe
+    def __init__(self, px, py):
+        #construtor classe pai
+        pg.sprite.Sprite.__init__(self)
+        #carregando imagem de fundo
+        mob_img = pg.image.load(path.join(img_dir, "coracao.png")).convert()
+        self.image = mob_img
+        self.image.set_colorkey(WHITE)
+        #diminuindo tamanho da imagem
+        self.image = pg.transform.scale(mob_img, (20, 20))
+        #detalhes posicao
+        self.rect=self.image.get_rect()
+        #sorteia lugar inicial em x
+        self.rect.x=20
+        #sorteia lugar y
+        self.rect.y=-20
+        #sorteia velocidade inicial
+        self.speedx= 0
+        self.speedy= -3
+        self.image.set_colorkey(BLACK)
+        
+        
+    
+    def update(self):
+        self.rect.x += self.speedy 
+        #se as plantas passarem da tela volta para o lado
+        if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
+           self.rect.x = 20
+           self.rect.y= -20
+           self.rect.bottom=295
+           self.rect.centerx = WIDTH            
+        
+
          
              
    
@@ -154,7 +160,9 @@ for i in range(1):
     all_sprites.add(mob)
     all_mobs.add(mob)
 
-    
+
+all_vida = pg.sprite.Group()
+
     
 
 WHITE = (255, 255, 255)
@@ -176,11 +184,12 @@ pg.display.set_caption("Dino Run")
 clock = pg.time.Clock()
 
 cont = 0
-intervalo = random.randint(FPS//2, 3*FPS)
-
+intervalo = randint(FPS//2, 3*FPS)
+prob_vida = randint(0,500) 
 try: 
     # Loop principal.
     running = True
+    
     while running:
         clock.tick(FPS)
         for event in pg.event.get():
@@ -197,6 +206,7 @@ try:
         all_sprites.update()
         screen.fill(BLACK)
         
+        
         hits = pg.sprite.groupcollide(all_players, all_mobs, False, True)
         if hits:
             pass
@@ -208,7 +218,7 @@ try:
             all_sprites.add(mob)
             all_mobs.add(mob)
             cont = 0
-            intervalo = random.randint(FPS//2, FPS)
+            intervalo = randint(FPS//2, FPS)
        
         background_rect1.x -=3              
         background_rect2.x -=3
@@ -219,13 +229,20 @@ try:
             background_rect2.x = 0
       
         
-#x negatico é fora da tela         
-        print(background_rect1.x)
+#x negatico é fora da tela 
+        if cont == prob_vida:
+            vida = Vida(WIDTH, 260)
+            all_sprites.add(vida)
+            all_vida.add(vida)
+            cont = 0
+            prob_vida = randint(0,500)
+            
+
         
         all_sprites.draw(screen)
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
-    
+        print(prob_vida)       
 
         
 finally:
