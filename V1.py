@@ -40,13 +40,15 @@ class Player(pg.sprite.Sprite):
         
     def update(self):
         self.rect.y += self.speedy
-        if self.speedy < 0 and self.pulando:
+        if self.speedy < 0: #and self.pulando:
             self.speedy += 2
         elif self.pulando:
-            self.speedy -= 2
+            self.speedy -= 2    
         elif self.speedy < -10:
             self.speedy = 0
             self.pulando = False
+        elif self.rect.bottom > HEIGHT - 25:
+            self.rect.bottom = HEIGHT - 25
             
 #        if self.rect.y > HEIGHT:
 #            self.rect.y = HEIGHT
