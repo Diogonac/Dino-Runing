@@ -40,23 +40,20 @@ class Player(pg.sprite.Sprite):
         
     def update(self):
         self.rect.y += self.speedy
+        self.speedy += GRAVITY
 
 
         if self.rect.y > HEIGHT:
+            self.speedy = 0
             self.rect.y = HEIGHT
         if self.rect.y < 0:
+            self.speedy = 0
             self.rect.y = 0
    
 
-        if self.speedy < 0 and self.pulando:
-            self.speedy += 2
-        elif self.pulando:
-            self.speedy -= 2    
-        elif self.speedy < -10:
-            self.speedy = 0
-            self.pulando = False
-        elif self.rect.bottom > HEIGHT - 25:
+        if self.rect.bottom > HEIGHT - 25:
             self.rect.bottom = HEIGHT - 25
+            self.pulando = False
             
 #        if self.rect.y > HEIGHT:
 #            self.rect.y = HEIGHT
@@ -191,8 +188,9 @@ try:
                 running = False
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
-                    player.pulando = True
-                    player.speedy = -11     
+                    if not player.pulando:
+                        player.pulando = True
+                        player.speedy = -11   
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
                     player.speedy = 0
