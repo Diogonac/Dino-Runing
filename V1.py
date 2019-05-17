@@ -11,7 +11,7 @@ Email: laurabp@al.insper.edu.br
 import pygame as pg
 from os import path
 import random
-vec = pg.math.Vector2
+
 
 # Inicialização do Pygame.
 pg.init()
@@ -35,17 +35,32 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 25
-        self.speedy = -12
-        self.vel = vec(0,0)
-        self.acc = vec(0,0)
+        self.speedy = 0
+        self.pulando = False
         
     def update(self):
         self.rect.y += self.speedy
+
         if self.rect.y > HEIGHT:
             self.rect.y = HEIGHT
         if self.rect.y < 0:
             self.rect.y = 0
    
+
+        if self.speedy < 0 and self.pulando:
+            self.speedy += 2
+        elif self.pulando:
+            self.speedy -= 2
+        elif self.speedy < -10:
+            self.speedy = 0
+            self.pulando = False
+            
+#        if self.rect.y > HEIGHT:
+#            self.rect.y = HEIGHT
+#        if self.rect.y < 0:
+#            self.rect.y = 0
+            
+
         
             
 
@@ -67,19 +82,22 @@ class Mob(pg.sprite.Sprite):
         self.rect.y=py
  
         #sorteia velocidade inicial
+
         self.speedx= 0
         self.speedy= -3
 
+
+
+     
+
         self.image.set_colorkey(WHITE)
         
+        
            # Verifica se houve colisão entre o player e a  planta
-        hits = pg.sprite.spritecollide(player, mob, False, pg.sprite.collide_circle)
-        if hits:
-            # Toca o som da colisão
-            boom_sound.play()
-            time.sleep(1) # Precisa esperar senão fecha
-            
-            running = False
+        #hits = pg.sprite.spritecollide(player, mob, False, pg.sprite.collide_circle)
+        #if hits:
+            #return False
+        #    pass
             
            
                     
@@ -124,14 +142,17 @@ background_rect2 = background.get_rect()
 background_rect1.x = WIDTH
 
 player = Player()
+all_players = pg.sprite.Group()
+all_players.add(player)
+
 all_sprites = pg.sprite.Group()
 all_sprites.add(player)
 
-mob = pg.sprite.Group()
-for i in range(3):
-    mobs = Mob(random.randint(1, WIDTH), 260)
+all_mobs = pg.sprite.Group()
+for i in range(1):
+    mob = Mob(WIDTH, 260)
     all_sprites.add(mob)
-    mob.add(mobs)
+    all_mobs.add(mob)
 
     
     
@@ -154,7 +175,8 @@ pg.display.set_caption("Dino Run")
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
 
-
+cont = 0
+intervalo = random.randint(FPS//2, 3*FPS)
 
 try: 
     # Loop principal.
@@ -166,16 +188,26 @@ try:
                 running = False
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
-                    player.speedy = -10       
+                    player.pulando = True
+                    player.speedy = -11     
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
                     player.speedy = 0
         all_sprites.update()
         screen.fill(BLACK)
         
-
-
+        hits = pg.sprite.groupcollide(all_players, all_mobs, False, True)
+        if hits:
+            pass
+            #running = False
+        cont += 1
         
+        if cont == intervalo:
+            mob = Mob(WIDTH, 260)
+            all_sprites.add(mob)
+            all_mobs.add(mob)
+            cont = 0
+            intervalo = random.randint(FPS//2, FPS)
        
         background_rect1.x -=3              
         background_rect2.x -=3
