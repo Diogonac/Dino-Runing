@@ -86,40 +86,41 @@ class Mob(pg.sprite.Sprite):
         self.speedx= 0
         self.speedy= -3
 
-
-
-     
-
         self.image.set_colorkey(WHITE)
-        
-        
-           # Verifica se houve colisão entre o player e a  planta
-        #hits = pg.sprite.spritecollide(player, mob, False, pg.sprite.collide_circle)
-        #if hits:
-            #return False
-        #    pass
-            
-           
-                    
-        #Mob_rect1.x -=3              
-        #background_rect2.x -=3
-        #screen.blit(background, background_rect1)
-        #screen.blit(background, background_rect2)
-        #if background_rect1.x<0:
-         ##   background_rect2.x = 0
 
     def update(self):
         self.rect.x += self.speedy
-
         
-        #se as plantas passarem da tela volta para o lado
-        if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
-           self.rect.x = 20
-           self.rect.y= -20
-           self.rect.bottom=295
-           self.rect.centerx = WIDTH 
-           
-      
+class Aguia(pg.sprite.Sprite):
+    #construtor da classe
+    def __init__(self, px, py):
+        #construtor classe pai
+        pg.sprite.Sprite.__init__(self)
+        #carregando imagem de fundo
+        mob_img = pg.image.load(path.join(img_dir, "aguia.png")).convert()
+        self.image = mob_img
+        #diminuindo tamanho da imagem
+        self.image = pg.transform.scale(mob_img, (40, 32))
+        #detalhes posicao
+        self.rect=self.image.get_rect()
+        #sorteia lugar inicial em x
+        self.rect.x=px
+        #sorteia lugar y
+        self.rect.y=py
+ 
+        #sorteia velocidade inicial
+
+        self.speedx= 0
+        self.speedy= -3
+
+ 
+
+        self.image.set_colorkey(WHITE)
+        
+    def update(self):
+        
+        self.rect.x += self.speedx
+
          
              
    
@@ -149,11 +150,12 @@ all_sprites = pg.sprite.Group()
 all_sprites.add(player)
 
 all_mobs = pg.sprite.Group()
-for i in range(1):
-    mob = Mob(WIDTH, 260)
-    all_sprites.add(mob)
-    all_mobs.add(mob)
-
+all_aguias=pg.sprite.Group()
+#for i in range(1):
+#    mob = Mob(WIDTH, 260)
+#    all_sprites.add(mob)
+#    all_mobs.add(mob)
+#
     
     
 
@@ -175,14 +177,34 @@ pg.display.set_caption("Dino Run")
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
 
-cont = 0
-intervalo = random.randint(FPS//2, 3*FPS)
+cont_Mob = 0
+intervalo_Mob = random.randint(FPS//2, 3*FPS)
+cont_aguia=0
+intervalo_aguia = random.randint(FPS//2, 3*FPS)
+
 
 try: 
     # Loop principal.
     running = True
     while running:
         clock.tick(FPS)
+
+        if cont_Mob == intervalo_Mob:
+            mob = Mob(WIDTH, 260)
+            all_sprites.add(mob)
+            all_mobs.add(mob)
+            cont_Mob = 0
+            intervalo_Mob = random.randint(FPS//2, FPS)
+
+        if cont_aguia == intervalo_aguia:
+            aguia = Aguia(WIDTH, 260)
+            aguia.speedx -= 5
+            all_sprites.add(aguia)
+            all_aguias.add(aguia)
+            cont_aguia = 0
+            intervalo_aguia = random.randint(FPS//2, FPS)            
+            
+        
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
@@ -194,22 +216,17 @@ try:
             if event.type == pg.KEYUP:
                 if event.key == pg.K_SPACE:
                     player.speedy = 0
+                    
         all_sprites.update()
         screen.fill(BLACK)
         
         hits = pg.sprite.groupcollide(all_players, all_mobs, False, True)
         if hits:
-            pass
+             pass
             #running = False
-        cont += 1
-        
-        if cont == intervalo:
-            mob = Mob(WIDTH, 260)
-            all_sprites.add(mob)
-            all_mobs.add(mob)
-            cont = 0
-            intervalo = random.randint(FPS//2, FPS)
-       
+        cont_Mob += 1
+        cont_aguia+=1
+               
         background_rect1.x -=3              
         background_rect2.x -=3
         screen.blit(background, background_rect1)
@@ -220,7 +237,6 @@ try:
       
         
 #x negatico é fora da tela         
-        print(background_rect1.x)
         
         all_sprites.draw(screen)
         # Depois de desenhar tudo, inverte o display.
