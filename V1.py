@@ -29,11 +29,11 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         player_img = pg.image.load(path.join(img_dir, "Dino.png")).convert()
         self.image = player_img
-        self.image = pg.transform.scale(player_img, (100, 100))
+        self.image = pg.transform.scale(player_img, (30, 30))
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 25
+        self.rect.bottom = HEIGHT -50
         self.speedy = 0
         self.pulando = False
         
@@ -48,10 +48,11 @@ class Player(pg.sprite.Sprite):
         if self.rect.y < 0:
             self.speedy = 0
             self.rect.y = 0
+        
    
 
-        if self.rect.bottom > HEIGHT - 25:
-            self.rect.bottom = HEIGHT - 25
+        if self.rect.bottom > HEIGHT - 50:
+            self.rect.bottom = HEIGHT - 55
             self.pulando = False
             
 #        if self.rect.y > HEIGHT:
@@ -100,7 +101,7 @@ class Vida(pg.sprite.Sprite):
         #carregando imagem de fundo
         mob_img = pg.image.load(path.join(img_dir, "coracao.png")).convert()
         self.image = mob_img
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
         #diminuindo tamanho da imagem
         self.image = pg.transform.scale(mob_img, (20, 20))
         #detalhes posicao
@@ -112,7 +113,6 @@ class Vida(pg.sprite.Sprite):
         #sorteia velocidade inicial
         self.speedx= 0
         self.speedy= -3
-        self.image.set_colorkey(BLACK)
         
         
     
@@ -186,7 +186,7 @@ clock = pg.time.Clock()
 cont = 0
 cont1 =0
 intervalo = randint(FPS//2, 3*FPS)
-prob_vida = randint(60,240) 
+prob_vida = randint(60,1000) 
 try: 
     # Loop principal.
     running = True
@@ -200,8 +200,8 @@ try:
                 if event.key == pg.K_SPACE:
                     if not player.pulando:
                         player.pulando = True
-                        player.speedy = -11   
-            if event.type == pg.KEYUP:
+                        player.speedy = -11  
+            if event.type == pg.KEYUP: 
                 if event.key == pg.K_SPACE:
                     player.speedy = 0
         all_sprites.update()
@@ -209,9 +209,9 @@ try:
         
         
         hits = pg.sprite.groupcollide(all_players, all_mobs, False, True)
-        if hits:
-            pass
-            #running = False
+        #if hits:
+            #pass
+             #running = False
         cont += 1
         cont1 += 1
         
@@ -238,7 +238,7 @@ try:
             all_sprites.add(vida)
             all_vida.add(vida)
             cont1 = 0
-            prob_vida = randint(60,240)
+            prob_vida = randint(240,1000)
             
 
         
