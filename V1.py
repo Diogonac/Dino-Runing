@@ -10,7 +10,8 @@ Email: laurabp@al.insper.edu.br
 # Importando as bibliotecas necessárias.
 import pygame as pg
 from os import path
-from random import randint
+import random
+
 
 # Inicialização do Pygame.
 pg.init()
@@ -80,51 +81,54 @@ class Mob(pg.sprite.Sprite):
         self.rect.x=px
         #sorteia lugar y
         self.rect.y=py
+ 
         #sorteia velocidade inicial
+
         self.speedx= 0
         self.speedy= -3
-        self.image.set_colorkey(WHITE)
-    def update(self):
-        self.rect.x += self.speedy 
-        #se as plantas passarem da tela volta para o lado
-        if self.rect.top>HEIGHT + 10 or self.rect.left < -25 or  self.rect.right > WIDTH + 20:
-           self.rect.x = 20
-           self.rect.y= -20
-           self.rect.bottom=295
-           self.rect.centerx = WIDTH 
 
-class Vida(pg.sprite.Sprite):
+        self.image.set_colorkey(WHITE)
+
+    def update(self):
+        self.rect.x += self.speedy
+        
+class Aguia(pg.sprite.Sprite):
     #construtor da classe
     def __init__(self, px, py):
         #construtor classe pai
         pg.sprite.Sprite.__init__(self)
         #carregando imagem de fundo
-        mob_img = pg.image.load(path.join(img_dir, "coracao.png")).convert()
+        mob_img = pg.image.load(path.join(img_dir, "aguia.png")).convert()
         self.image = mob_img
+<<<<<<< HEAD
         self.image.set_colorkey(BLACK)
+=======
+>>>>>>> e2df423ad388f7de22113989b4e34d9e081943d3
         #diminuindo tamanho da imagem
-        self.image = pg.transform.scale(mob_img, (20, 20))
+        self.image = pg.transform.scale(mob_img, (40, 30))
         #detalhes posicao
         self.rect=self.image.get_rect()
         #sorteia lugar inicial em x
-        self.rect.centerx=WIDTH
+        self.rect.x=px
         #sorteia lugar y
-        self.rect.bottom=295
+        self.rect.y=py
+ 
         #sorteia velocidade inicial
+
         self.speedx= 0
         self.speedy= -3
+<<<<<<< HEAD
         
+=======
+
+ 
+
+        self.image.set_colorkey(WHITE)
+>>>>>>> e2df423ad388f7de22113989b4e34d9e081943d3
         
-    
     def update(self):
-        self.rect.x += self.speedy 
-        #se as plantas passarem da tela volta para o lado
-        if self.rect.x < -25:
-           #self.rect.x = 20
-           #self.rect.y= -20
-           #self.rect.bottom=295
-           #self.rect.centerx = WIDTH            
-           self.kill()
+        
+        self.rect.x += self.speedx
 
          
              
@@ -155,14 +159,13 @@ all_sprites = pg.sprite.Group()
 all_sprites.add(player)
 
 all_mobs = pg.sprite.Group()
-for i in range(1):
-    mob = Mob(WIDTH, 260)
-    all_sprites.add(mob)
-    all_mobs.add(mob)
-
-
-all_vida = pg.sprite.Group()
-
+all_aguias=pg.sprite.Group()
+#for i in range(1):
+#    mob = Mob(WIDTH, 260)
+#    all_sprites.add(mob)
+#    all_mobs.add(mob)
+#
+    
     
 
 WHITE = (255, 255, 255)
@@ -183,16 +186,41 @@ pg.display.set_caption("Dino Run")
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
 
+<<<<<<< HEAD
 cont = 0
 cont1 =0
 intervalo = randint(FPS//2, 3*FPS)
 prob_vida = randint(60,1000) 
+=======
+cont_Mob = 0
+intervalo_Mob = random.randint(FPS//2, 3*FPS)
+cont_aguia=0
+intervalo_aguia = random.randint(FPS//2, 3*FPS)
+
+
+>>>>>>> e2df423ad388f7de22113989b4e34d9e081943d3
 try: 
     # Loop principal.
     running = True
-    
     while running:
         clock.tick(FPS)
+
+        if cont_Mob == intervalo_Mob:
+            mob = Mob(WIDTH, 260)
+            all_sprites.add(mob)
+            all_mobs.add(mob)
+            cont_Mob = 0
+            intervalo_Mob = random.randint(FPS//2, FPS)
+
+        if cont_aguia == intervalo_aguia:
+            aguia = Aguia(WIDTH, 235)
+            aguia.speedx -= 5
+            all_sprites.add(aguia)
+            all_aguias.add(aguia)
+            cont_aguia = 0
+            intervalo_aguia = random.randint(FPS//2, FPS)            
+            
+        
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
@@ -204,9 +232,11 @@ try:
             if event.type == pg.KEYUP: 
                 if event.key == pg.K_SPACE:
                     player.speedy = 0
+                    
         all_sprites.update()
         screen.fill(BLACK)
         
+<<<<<<< HEAD
         
         hits = pg.sprite.groupcollide(all_players, all_mobs, False, True)
         #if hits:
@@ -222,6 +252,15 @@ try:
             cont = 0
             intervalo = randint(FPS//2, FPS)
        
+=======
+        hits = pg.sprite.groupcollide(all_players, all_mobs,False, True)
+        if hits:
+           pass
+            #running = False
+        cont_Mob += 1
+        cont_aguia+=1
+               
+>>>>>>> e2df423ad388f7de22113989b4e34d9e081943d3
         background_rect1.x -=3              
         background_rect2.x -=3
         screen.blit(background, background_rect1)
@@ -231,6 +270,7 @@ try:
             background_rect2.x = 0
       
         
+<<<<<<< HEAD
 #x negatico é fora da tela 
         
         if cont1 == prob_vida:
@@ -241,11 +281,14 @@ try:
             prob_vida = randint(240,1000)
             
 
+=======
+#x negatico é fora da tela         
+>>>>>>> e2df423ad388f7de22113989b4e34d9e081943d3
         
         all_sprites.draw(screen)
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
-        print(prob_vida)       
+    
 
         
 finally:
