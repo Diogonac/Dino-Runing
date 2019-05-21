@@ -100,7 +100,7 @@ class Aguia(pg.sprite.Sprite):
         mob_img = pg.image.load(path.join(img_dir, "aguia.png")).convert()
         self.image = mob_img
         #diminuindo tamanho da imagem
-        self.image = pg.transform.scale(mob_img, (40, 32))
+        self.image = pg.transform.scale(mob_img, (40, 30))
         #detalhes posicao
         self.rect=self.image.get_rect()
         #sorteia lugar inicial em x
@@ -197,7 +197,7 @@ try:
             intervalo_Mob = random.randint(FPS//2, FPS)
 
         if cont_aguia == intervalo_aguia:
-            aguia = Aguia(WIDTH, 260)
+            aguia = Aguia(WIDTH, 235)
             aguia.speedx -= 5
             all_sprites.add(aguia)
             all_aguias.add(aguia)
@@ -220,10 +220,10 @@ try:
         all_sprites.update()
         screen.fill(BLACK)
         
-        hits = pg.sprite.groupcollide(all_players, all_mobs, False, True)
+        hits = pg.sprite.groupcollide(all_players, all_mobs,False, True)
         if hits:
-             pass
-            #running = False
+           
+            running = False
         cont_Mob += 1
         cont_aguia+=1
                
