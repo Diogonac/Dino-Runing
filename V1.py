@@ -202,7 +202,7 @@ pg.display.set_caption("Dino Run")
 
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
-prob_vida = randint(60,1000) 
+prob_vida = random.randint(60,1000) 
 
 cont_Mob = 0
 intervalo_Mob = random.randint(FPS//2, 3*FPS)
@@ -273,7 +273,7 @@ try:
             all_sprites.add(vida)
             all_vida.add(vida)
             cont_life = 0
-            prob_life = randint(240,1000)
+            prob_life = random.randint(240,1000)
             
 
         
