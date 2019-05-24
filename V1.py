@@ -220,19 +220,12 @@ try:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     running = False
-<<<<<<< HEAD
+
         screen.blit(background, TI.get_rect())
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
     
-=======
-                    
-        # Tela inicial
-        # Background
-        # Texto
-        # etc
-        
->>>>>>> a4f6a9d5af22f2abd47013f07064b9b83059903b
+
     
     running = True
     while running:
