@@ -156,7 +156,7 @@ clock = pg.time.Clock()
 # carregue a imagem do fundo e coloque no background
 background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
 TI = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()           
-TF = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()  
+TF = pg.image.load(path.join(img_dir, 'telafinal.png')).convert()  
 
 background_rect1 = background.get_rect()
 background_rect2 = background.get_rect()
@@ -197,19 +197,16 @@ pg.display.set_caption("Dino Run")
 
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
-prob_vida = random.randint(60,10000) 
-
+prob_vida = random.randint(60,1000) 
 cont_Mob = 0
 intervalo_Mob = random.randint(FPS//2, 3*FPS)
 cont_aguia=0
 intervalo_aguia = random.randint(FPS//2, 3*FPS)
 cont_life=0
-intervalo_life = random.randint(FPS//2, 3*FPS)
+intervalo_life = random.randint(FPS//2, 3*FPS) 
 
-
-try: 
-
-    # Loop principal.
+def tela_inicial():
+        # Loop principal.
     running = True
     while running:
         clock.tick(FPS)
@@ -224,9 +221,8 @@ try:
 
         screen.blit(TI, TI.get_rect())
         pg.display.flip()
-    
 
-    
+def tela_play():
     running = True
     while running:
         clock.tick(FPS)
@@ -255,10 +251,7 @@ try:
                 if event.key == pg.K_SPACE:
                     if not player.pulando:
                         player.pulando = True
-                        player.speedy = -11 
-            #if event.type == pg.KEYUP: 
-                #if event.key == pg.K_SPACE:
-                    
+                        player.speedy = -11        
                     
         all_sprites.update()
         screen.fill(BLACK)
@@ -281,9 +274,6 @@ try:
         if background_rect1.x<0:
             background_rect1.x = WIDTH
             background_rect2.x = 0
-      
-        
-#x negatico é fora da tela 
         
         if cont_life == prob_vida:
             vida = Vida(WIDTH, 260)
@@ -291,26 +281,32 @@ try:
             all_vida.add(vida)
             cont_life = 0
             prob_life = random.randint(240,1000)
-            
 
-        
         all_sprites.draw(screen)
-        # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
-    
-    
+
+def tela_final():
     running = True
     while running:
         clock.tick(FPS)
-        screen.blit(TI, TI.get_rect())
+        screen.blit(TF, TF.get_rect())
         pg.display.flip()
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_SPACE:
-                running = True 
+                running = False 
+                return True
+            if event.key == pg.QUIT:
+                running = False 
+                return False
 
-                    
 
-
+try: 
+    running = True
+    while running:
+        tela_inicial()
+        tela_play()
+        running = tela_final()
         
 finally:
     pg.quit()
+
