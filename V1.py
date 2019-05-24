@@ -266,6 +266,9 @@ try:
         hits = pg.sprite.groupcollide(all_players, all_mobs,False, True)
         if hits:
            running = False #pass
+        hits = pg.sprite.groupcollide(all_players, all_aguias,False, True)
+        if hits:
+           running = False #pass
             #running = False
         cont_Mob += 1
         cont_aguia+=1
