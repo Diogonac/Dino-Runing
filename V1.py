@@ -212,7 +212,7 @@ try:
     running = True
     while running:
         clock.tick(FPS)
-        # Tela inicial
+        
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
@@ -220,10 +220,19 @@ try:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     running = False
+<<<<<<< HEAD
         screen.blit(background, TI.get_rect())
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
     
+=======
+                    
+        # Tela inicial
+        # Background
+        # Texto
+        # etc
+        
+>>>>>>> a4f6a9d5af22f2abd47013f07064b9b83059903b
     
     running = True
     while running:
@@ -297,7 +306,19 @@ try:
     running = True
     while running:
         clock.tick(FPS)
-        # Tela Final
+        
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+                pg.quit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    running = False
+                    
+        # Tela final
+        # Background
+        # Texto
+        # etc
         
 finally:
     pg.quit()
