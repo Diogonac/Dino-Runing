@@ -218,7 +218,7 @@ try:
     running = True
     while running:
         clock.tick(FPS)
-        # Tela inicial
+        
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
@@ -226,7 +226,12 @@ try:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     running = False
-    
+                    
+        # Tela inicial
+        # Background
+        # Texto
+        # etc
+        
     
     running = True
     while running:
@@ -300,7 +305,19 @@ try:
     running = True
     while running:
         clock.tick(FPS)
-        # Tela Final
+        
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+                pg.quit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    running = False
+                    
+        # Tela final
+        # Background
+        # Texto
+        # etc
         
 finally:
     pg.quit()
