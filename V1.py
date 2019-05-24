@@ -197,13 +197,6 @@ pg.display.set_caption("Dino Run")
 
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
-prob_vida = random.randint(60,1000) 
-cont_Mob = 0
-intervalo_Mob = random.randint(FPS//2, 3*FPS)
-cont_aguia=0
-intervalo_aguia = random.randint(FPS//2, 3*FPS)
-cont_life=0
-intervalo_life = random.randint(FPS//2, 3*FPS) 
 
 def tela_inicial():
         # Loop principal.
@@ -223,6 +216,14 @@ def tela_inicial():
         pg.display.flip()
 
 def tela_play():
+    prob_vida = random.randint(60,1000) 
+    cont_Mob = 0
+    intervalo_Mob = random.randint(FPS//2, 3*FPS)
+    cont_aguia=0
+    intervalo_aguia = random.randint(FPS//2, 3*FPS)
+    cont_life=0
+    prob_vida = random.randint(FPS//2, 3*FPS) 
+
     running = True
     while running:
         clock.tick(FPS)
@@ -280,7 +281,7 @@ def tela_play():
             all_sprites.add(vida)
             all_vida.add(vida)
             cont_life = 0
-            prob_life = random.randint(240,1000)
+            prob_vida = random.randint(240,1000)
 
         all_sprites.draw(screen)
         pg.display.flip()
@@ -291,13 +292,14 @@ def tela_final():
         clock.tick(FPS)
         screen.blit(TF, TF.get_rect())
         pg.display.flip()
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_SPACE:
-                running = False 
-                return True
-            if event.key == pg.QUIT:
-                running = False 
-                return False
+        for event in pg.event.get():
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    running = False 
+                    return True
+                if event.key == pg.QUIT:
+                    running = False 
+                    return False
 
 
 try: 
