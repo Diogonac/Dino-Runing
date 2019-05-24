@@ -155,8 +155,8 @@ clock = pg.time.Clock()
 
 # carregue a imagem do fundo e coloque no background
 background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-TI = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()
-
+TI = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()           
+TF = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()  
 
 background_rect1 = background.get_rect()
 background_rect2 = background.get_rect()
@@ -223,7 +223,6 @@ try:
                     running = False
 
         screen.blit(TI, TI.get_rect())
-        # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
     
 
@@ -300,19 +299,15 @@ try:
     running = True
     while running:
         clock.tick(FPS)
-        
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-                pg.quit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_SPACE:
-                    running = False
+        screen.blit(TI, TI.get_rect())
+        pg.display.flip()
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                running = True 
+
                     
-        # Tela final
-        # Background
-        # Texto
-        # etc
+
+
         
 finally:
     pg.quit()
