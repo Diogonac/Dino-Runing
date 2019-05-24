@@ -145,15 +145,7 @@ class Aguia(pg.sprite.Sprite):
     def update(self):
         
         self.rect.x += self.speedx
-
-         
-             
-   
-            
-           
-           
-            
-
+        
 screen = pg.display.set_mode((WIDTH, HEIGHT))
 img_dir = path.join(path.dirname(__file__), 'img')
 
@@ -163,6 +155,8 @@ clock = pg.time.Clock()
 
 # carregue a imagem do fundo e coloque no background
 background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
+TI = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
+
 background_rect1 = background.get_rect()
 background_rect2 = background.get_rect()
 background_rect1.x = WIDTH
@@ -202,7 +196,7 @@ pg.display.set_caption("Dino Run")
 
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
-prob_vida = random.randint(60,1000) 
+prob_vida = random.randint(60,10000) 
 
 cont_Mob = 0
 intervalo_Mob = random.randint(FPS//2, 3*FPS)
@@ -226,6 +220,9 @@ try:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     running = False
+        screen.blit(background, TI.get_rect())
+        # Depois de desenhar tudo, inverte o display.
+        pg.display.flip()
     
     
     running = True
@@ -256,17 +253,17 @@ try:
                 if event.key == pg.K_SPACE:
                     if not player.pulando:
                         player.pulando = True
-                        player.speedy = -11  
-            if event.type == pg.KEYUP: 
-                if event.key == pg.K_SPACE:
-                    player.speedy = 0
+                        player.speedy = -11 
+            #if event.type == pg.KEYUP: 
+                #if event.key == pg.K_SPACE:
+                    
                     
         all_sprites.update()
         screen.fill(BLACK)
         
         hits = pg.sprite.groupcollide(all_players, all_mobs,False, True)
         if hits:
-           pass
+           running = False #pass
             #running = False
         cont_Mob += 1
         cont_aguia+=1
