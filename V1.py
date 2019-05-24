@@ -155,7 +155,8 @@ clock = pg.time.Clock()
 
 # carregue a imagem do fundo e coloque no background
 background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-TI = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
+TI = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()
+
 
 background_rect1 = background.get_rect()
 background_rect2 = background.get_rect()
@@ -221,7 +222,7 @@ try:
                 if event.key == pg.K_SPACE:
                     running = False
 
-        screen.blit(background, TI.get_rect())
+        screen.blit(TI, TI.get_rect())
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
     
