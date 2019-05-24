@@ -114,7 +114,7 @@ class Vida(pg.sprite.Sprite):
         self.speedx= 0
         self.speedy= -3
 
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(BLACK)
 
     def update(self):
         self.rect.x += self.speedy
@@ -213,7 +213,21 @@ intervalo_life = random.randint(FPS//2, 3*FPS)
 
 
 try: 
+
     # Loop principal.
+    running = True
+    while running:
+        clock.tick(FPS)
+        # Tela inicial
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+                pg.quit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    running = False
+    
+    
     running = True
     while running:
         clock.tick(FPS)
@@ -237,6 +251,7 @@ try:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+                pg.quit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     if not player.pulando:
@@ -281,7 +296,11 @@ try:
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
     
-
+    
+    running = True
+    while running:
+        clock.tick(FPS)
+        # Tela Final
         
 finally:
     pg.quit()
