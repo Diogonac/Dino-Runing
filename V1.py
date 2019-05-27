@@ -11,8 +11,10 @@ Email: laurabp@al.insper.edu.br
 import pygame as pg
 from os import path
 import random
-
-
+from os import path
+fnt_dir = path.join(path.dirname(__file__), 'font')
+img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'snd')
 # Inicialização do Pygame.
 pg.init()
 pg.mixer.init()
@@ -157,7 +159,7 @@ clock = pg.time.Clock()
 background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
 TI = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()           
 TF = pg.image.load(path.join(img_dir, 'telafinal.png')).convert()  
-
+score_font = pg.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 28)
 background_rect1 = background.get_rect()
 background_rect2 = background.get_rect()
 background_rect1.x = WIDTH
@@ -225,9 +227,11 @@ def tela_play():
     prob_vida = random.randint(FPS//2, 3*FPS) 
 
     running = True
+    score = 0
+    
     while running:
         clock.tick(FPS)
-
+        
         if cont_Mob == intervalo_Mob:
             mob = Mob(WIDTH, 260)
             all_sprites.add(mob)
@@ -258,6 +262,8 @@ def tela_play():
         screen.fill(BLACK)
         
         hits = pg.sprite.groupcollide(all_players, all_mobs,False, True)
+        if not hits:
+            score += 1
         if hits:
            running = False #pass
         hits = pg.sprite.groupcollide(all_players, all_aguias,False, True)
@@ -284,6 +290,10 @@ def tela_play():
             prob_vida = random.randint(240,1000)
 
         all_sprites.draw(screen)
+        text_surface = score_font.render("{:08d}".format(score), True, BLACK)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH / 2,  10)
+        screen.blit(text_surface, text_rect)         
         pg.display.flip()
 
 def tela_final():
@@ -307,6 +317,7 @@ try:
     while running:
         tela_inicial()
         tela_play()
+
         running = tela_final()
         
 finally:
