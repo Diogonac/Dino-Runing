@@ -28,15 +28,16 @@ WHITE = (255,255,255)
 class Player(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        player_img = pg.image.load(path.join(img_dir, "Dino.png")).convert()
+        player_img = pg.image.load(path.join(img_dir,"Dino.png")).convert()
         self.image = player_img
         self.image = pg.transform.scale(player_img, (30, 30))
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT -50
+        self.rect.bottom = HEIGHT -50 
         self.speedy = 0
         self.pulando = False
+        self.vida=3
         
     def update(self):
         self.rect.y += self.speedy
@@ -237,7 +238,7 @@ try:
             all_sprites.add(mob)
             all_mobs.add(mob)
             cont_Mob = 0
-            intervalo_Mob = random.randint(FPS//2, FPS)
+            intervalo_Mob = random.randint(1, 100)
 
         if cont_aguia == intervalo_aguia:
             aguia = Aguia(WIDTH, 235)
@@ -245,7 +246,7 @@ try:
             all_sprites.add(aguia)
             all_aguias.add(aguia)
             cont_aguia = 0
-            intervalo_aguia = random.randint(FPS//2, FPS)            
+            intervalo_aguia = random.randint(10, 1000)            
             
         
         for event in pg.event.get():
@@ -263,13 +264,17 @@ try:
                     
         all_sprites.update()
         screen.fill(BLACK)
+                
+        hits = pg.sprite.groupcollide(all_players, all_vida,False, True)
+        if hits:
+           player.vida+=1
         
         hits = pg.sprite.groupcollide(all_players, all_mobs,False, True)
         if hits:
-           running = False #pass
+           player.vida-=1
         hits = pg.sprite.groupcollide(all_players, all_aguias,False, True)
         if hits:
-           running = False #pass
+           player.vida-=1
             #running = False
         cont_Mob += 1
         cont_aguia+=1
@@ -293,11 +298,23 @@ try:
             cont_life = 0
             prob_life = random.randint(240,1000)
             
+             # Desenha as vidas
+#        text_surface = score_font.render(chr(9829) * player.vida, True, RED)
+#        text_rect = text_surface.get_rect()
+#        text_rect.bottomleft = (10, HEIGHT - 10)
+#        screen.blit(text_surface, text_rect)
+        print(player.vida)
+            
+  
+            
 
         
         all_sprites.draw(screen)
         # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
+        
+        if player.vida == 0:
+            running = False
     
     
     running = True
@@ -316,6 +333,6 @@ try:
         # Background
         # Texto
         # etc
-        
+         
 finally:
     pg.quit()
