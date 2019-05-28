@@ -219,6 +219,7 @@ def tela_inicial():
         pg.display.flip()
 
 def tela_play():
+    player.vida = 3
     prob_vida = random.randint(60,1000) 
     cont_Mob = 0
     intervalo_Mob = random.randint(FPS//2, 3*FPS)
@@ -292,38 +293,32 @@ def tela_play():
             all_sprites.add(vida)
             all_vida.add(vida)
             cont_life = 0
-<<<<<<< HEAD
-            prob_life = random.randint(240,1000)
+
+            prob_vida = random.randint(240,1000)
             
              # Desenha as vidas
-#        text_surface = score_font.render(chr(9829) * player.vida, True, RED)
-#        text_rect = text_surface.get_rect()
-#        text_rect.bottomleft = (10, HEIGHT - 10)
-#        screen.blit(text_surface, text_rect)
-        print(player.vida)
-            
-  
-            
-=======
-            prob_vida = random.randint(240,1000)
->>>>>>> d590631ae2ac60c6cbaacc98d9882d0ecf4f8d68
-
         all_sprites.draw(screen)
+
+        text_surface = score_font.render("{:d}".format(player.vida), True, RED)
+        text_rect = text_surface.get_rect()
+        text_rect.bottomleft = (10, HEIGHT - 10)
+        screen.blit(text_surface, text_rect)
+        
         text_surface = score_font.render("{:08d}".format(score), True, BLACK)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH / 2,  10)
         screen.blit(text_surface, text_rect)         
         pg.display.flip()
-<<<<<<< HEAD
+
         
         if player.vida == 0:
             running = False
     
     
-=======
+
 
 def tela_final():
->>>>>>> d590631ae2ac60c6cbaacc98d9882d0ecf4f8d68
+
     running = True
     while running:
         clock.tick(FPS)
@@ -332,19 +327,8 @@ def tela_final():
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
-<<<<<<< HEAD
-                    running = False
-                    
-        # Tela final
-        # Background
-        # Texto
-        # etc
-         
-=======
-                    running = False 
                     return True
                 if event.key == pg.QUIT:
-                    running = False 
                     return False
 
 
@@ -355,8 +339,8 @@ try:
         tela_play()
 
         running = tela_final()
-        
->>>>>>> d590631ae2ac60c6cbaacc98d9882d0ecf4f8d68
+                
+
 finally:
     pg.quit()
 
