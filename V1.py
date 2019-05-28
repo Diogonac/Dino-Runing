@@ -11,8 +11,10 @@ Email: laurabp@al.insper.edu.br
 import pygame as pg
 from os import path
 import random
-
-
+from os import path
+fnt_dir = path.join(path.dirname(__file__), 'font')
+img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'snd')
 # Inicialização do Pygame.
 pg.init()
 pg.mixer.init()
@@ -156,9 +158,9 @@ clock = pg.time.Clock()
 
 # carregue a imagem do fundo e coloque no background
 background = pg.image.load(path.join(img_dir, 'starfield.png')).convert()
-TI = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()
-
-
+TI = pg.image.load(path.join(img_dir, 'telainicial.png')).convert()           
+TF = pg.image.load(path.join(img_dir, 'telafinal.png')).convert()  
+score_font = pg.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 28)
 background_rect1 = background.get_rect()
 background_rect2 = background.get_rect()
 background_rect1.x = WIDTH
@@ -198,19 +200,9 @@ pg.display.set_caption("Dino Run")
 
 # Variável para o ajuste de velocidade
 clock = pg.time.Clock()
-prob_vida = random.randint(60,10000) 
 
-cont_Mob = 0
-intervalo_Mob = random.randint(FPS//2, 3*FPS)
-cont_aguia=0
-intervalo_aguia = random.randint(FPS//2, 3*FPS)
-cont_life=0
-intervalo_life = random.randint(FPS//2, 3*FPS)
-
-
-try: 
-
-    # Loop principal.
+def tela_inicial():
+        # Loop principal.
     running = True
     while running:
         clock.tick(FPS)
@@ -224,15 +216,23 @@ try:
                     running = False
 
         screen.blit(TI, TI.get_rect())
-        # Depois de desenhar tudo, inverte o display.
         pg.display.flip()
-    
 
-    
+def tela_play():
+    prob_vida = random.randint(60,1000) 
+    cont_Mob = 0
+    intervalo_Mob = random.randint(FPS//2, 3*FPS)
+    cont_aguia=0
+    intervalo_aguia = random.randint(FPS//2, 3*FPS)
+    cont_life=0
+    prob_vida = random.randint(FPS//2, 3*FPS) 
+
     running = True
+    score = 0
+    
     while running:
         clock.tick(FPS)
-
+        
         if cont_Mob == intervalo_Mob:
             mob = Mob(WIDTH, 260)
             all_sprites.add(mob)
@@ -257,10 +257,7 @@ try:
                 if event.key == pg.K_SPACE:
                     if not player.pulando:
                         player.pulando = True
-                        player.speedy = -11 
-            #if event.type == pg.KEYUP: 
-                #if event.key == pg.K_SPACE:
-                    
+                        player.speedy = -11        
                     
         all_sprites.update()
         screen.fill(BLACK)
@@ -270,6 +267,8 @@ try:
            player.vida+=1
         
         hits = pg.sprite.groupcollide(all_players, all_mobs,False, True)
+        if not hits:
+            score += 1
         if hits:
            player.vida-=1
         hits = pg.sprite.groupcollide(all_players, all_aguias,False, True)
@@ -287,15 +286,13 @@ try:
         if background_rect1.x<0:
             background_rect1.x = WIDTH
             background_rect2.x = 0
-      
-        
-#x negatico é fora da tela 
         
         if cont_life == prob_vida:
             vida = Vida(WIDTH, 260)
             all_sprites.add(vida)
             all_vida.add(vida)
             cont_life = 0
+<<<<<<< HEAD
             prob_life = random.randint(240,1000)
             
              # Desenha as vidas
@@ -307,26 +304,35 @@ try:
             
   
             
+=======
+            prob_vida = random.randint(240,1000)
+>>>>>>> d590631ae2ac60c6cbaacc98d9882d0ecf4f8d68
 
-        
         all_sprites.draw(screen)
-        # Depois de desenhar tudo, inverte o display.
+        text_surface = score_font.render("{:08d}".format(score), True, BLACK)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH / 2,  10)
+        screen.blit(text_surface, text_rect)         
         pg.display.flip()
+<<<<<<< HEAD
         
         if player.vida == 0:
             running = False
     
     
+=======
+
+def tela_final():
+>>>>>>> d590631ae2ac60c6cbaacc98d9882d0ecf4f8d68
     running = True
     while running:
         clock.tick(FPS)
-        
+        screen.blit(TF, TF.get_rect())
+        pg.display.flip()
         for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-                pg.quit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
+<<<<<<< HEAD
                     running = False
                     
         # Tela final
@@ -334,5 +340,23 @@ try:
         # Texto
         # etc
          
+=======
+                    running = False 
+                    return True
+                if event.key == pg.QUIT:
+                    running = False 
+                    return False
+
+
+try: 
+    running = True
+    while running:
+        tela_inicial()
+        tela_play()
+
+        running = tela_final()
+        
+>>>>>>> d590631ae2ac60c6cbaacc98d9882d0ecf4f8d68
 finally:
     pg.quit()
+
