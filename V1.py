@@ -219,6 +219,7 @@ def tela_inicial():
         pg.display.flip()
 
 def tela_play():
+    player.vida = 3
     prob_vida = random.randint(60,1000) 
     cont_Mob = 0
     intervalo_Mob = random.randint(FPS//2, 3*FPS)
@@ -292,6 +293,7 @@ def tela_play():
             all_sprites.add(vida)
             all_vida.add(vida)
             cont_life = 0
+
             prob_life = random.randint(240,1000)
             
              # Desenha as vidas
@@ -304,7 +306,19 @@ def tela_play():
         prob_vida = random.randint(240,1000)
 
 
+
+
+     
+            
+             # Desenha as vidas
+
         all_sprites.draw(screen)
+
+        text_surface = score_font.render("{:d}".format(player.vida), True, RED)
+        text_rect = text_surface.get_rect()
+        text_rect.bottomleft = (10, HEIGHT - 10)
+        screen.blit(text_surface, text_rect)
+        
         text_surface = score_font.render("{:08d}".format(score), True, BLACK)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (WIDTH / 2,  10)
@@ -328,6 +342,7 @@ def tela_final():
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
+
                     running = False
                     
         # Tela final
@@ -337,9 +352,9 @@ def tela_final():
          
 
                     running = False 
+
                     return True
                 if event.key == pg.QUIT:
-                    running = False 
                     return False
 
 
@@ -350,7 +365,9 @@ try:
         tela_play()
 
         running = tela_final()
+
         
+
 
 finally:
     pg.quit()
