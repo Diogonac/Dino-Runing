@@ -99,10 +99,10 @@ class Vida(pg.sprite.Sprite):
         #construtor classe pai
         pg.sprite.Sprite.__init__(self)
         #carregando imagem de fundo
-        mob_img = pg.image.load(path.join(img_dir, "coracao.png")).convert()
-        self.image = mob_img
+        vida_img = pg.image.load(path.join(img_dir, "coracao.png")).convert()
+        self.image = vida_img
         #diminuindo tamanho da imagem
-        self.image = pg.transform.scale(mob_img, (40, 32))
+        self.image = pg.transform.scale(vida_img, (40, 32))
         #detalhes posicao
         self.rect=self.image.get_rect()
         #sorteia lugar inicial em x
@@ -126,11 +126,11 @@ class Aguia(pg.sprite.Sprite):
         #construtor classe pai
         pg.sprite.Sprite.__init__(self)
         #carregando imagem de fundo
-        mob_img = pg.image.load(path.join(img_dir, "aguia.png")).convert()
-        self.image = mob_img
+        aguia_img = pg.image.load(path.join(img_dir, "aguia.png")).convert()
+        self.image = aguia_img
         self.image.set_colorkey(BLACK)
         #diminuindo tamanho da imagem
-        self.image = pg.transform.scale(mob_img, (40, 30))
+        self.image = pg.transform.scale(aguia_img, (40, 30))
         #detalhes posicao
         self.rect=self.image.get_rect()
         #sorteia lugar inicial em x
@@ -295,7 +295,7 @@ def tela_play():
             all_vida.add(vida)
             cont_life = 0
 
-            prob_life = random.randint(240,1000)
+            prob_life = random.randint(240,800)
             
              # Desenha as vidas
 #        text_surface = score_font.render(chr(9829) * player.vida, True, RED)
@@ -326,16 +326,63 @@ def tela_play():
         screen.blit(text_surface, text_rect)         
         pg.display.flip()
         print(score)
+        
         if score>= 500: 
             #velocidade = -200   
-            aguia.speedx = -5
-            mob.speedx = -4
-            #vida.speedx=-10
-            background_rect1.x -= 4
-            background_rect2.x -= 4
-   
-
-          
+            all_aguias.speedx = -5
+            all_mobs.speedx = -4
+            all_vida.speedx = -4
+            background_rect1.x -= 3
+            background_rect2.x -= 3
+        if score>= 1000: 
+            #velocidade = -200   
+            all_aguias.speedx = -6
+            all_mobs.speedx = -5
+            all_vida.speedx=-5
+            background_rect1.x -= 3
+            background_rect2.x -= 3  
+        if score>= 1500: 
+            #velocidade = -200   
+            all_aguias.speedx = -7
+            all_mobs.speedx = -6
+            all_vida.speedx=-6
+            background_rect1.x -= 3
+            background_rect2.x -= 3
+        if score>= 2000: 
+            #velocidade = -200   
+            all_aguias.speedx = -8
+            all_mobs.speedx = -7
+            all_vida.speedx=-7
+            background_rect1.x -= 3
+            background_rect2.x -= 3
+        if score>= 2500: 
+            #velocidade = -200   
+            all_aguias.speedx = -9
+            all_mobs.speedx = -8
+            all_vida.speedx= -8
+            background_rect1.x -= 3
+            background_rect2.x -= 3
+        if score>= 3000: 
+            #velocidade = -200   
+            all_aguias.speedx = -10
+            all_mobs.speedx = -9
+            all_vida.speedx=-9
+            background_rect1.x -= 3
+            background_rect2.x -= 3
+        if score>= 3500: 
+            #velocidade = -200   
+            all_aguias.speedx = -11
+            all_mobs.speedx = -10
+            all_vida.speedx=-10
+            background_rect1.x -= 3
+            background_rect2.x -= 3
+        if score>= 4000: 
+            #velocidade = -200   
+            all_aguias.speedx = -12
+            all_mobs.speedx = -11
+            all_vida.speedx= -11
+            background_rect1.x -= 3
+            background_rect2.x -= 3      
             
         if player.vida == 0:
             running = False
