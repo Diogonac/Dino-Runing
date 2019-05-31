@@ -23,7 +23,7 @@ WIDTH = 600 # Largura da tela
 HEIGHT = 350 # Altura da tela
 FPS = 60 # Frames por segundo
 GRAVITY = 0.6
-
+velocidade = 3
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 
@@ -45,16 +45,13 @@ class Player(pg.sprite.Sprite):
         self.rect.y += self.speedy
         self.speedy += GRAVITY
 
-
         if self.rect.y > HEIGHT:
             self.speedy = 0
             self.rect.y = HEIGHT
         if self.rect.y < 0:
             self.speedy = 0
             self.rect.y = 0
-        
-   
-
+            
         if self.rect.bottom > HEIGHT - 50:
             self.rect.bottom = HEIGHT - 55
             self.pulando = False
@@ -87,13 +84,14 @@ class Mob(pg.sprite.Sprite):
  
         #sorteia velocidade inicial
 
-        self.speedx= 0
-        self.speedy= -3
+        self.speedx= -velocidade
+        self.speedy= 0
 
         self.image.set_colorkey(WHITE)
 
     def update(self):
-        self.rect.x += self.speedy
+        self.rect.x += self.speedx
+            
 
 class Vida(pg.sprite.Sprite):
     #construtor da classe
@@ -114,13 +112,13 @@ class Vida(pg.sprite.Sprite):
  
         #sorteia velocidade inicial
 
-        self.speedx= 0
-        self.speedy= -3
+        self.speedx= -velocidade
+        self.speedy= 0
 
         self.image.set_colorkey(BLACK)
 
     def update(self):
-        self.rect.x += self.speedy
+        self.rect.x += self.speedx
         
 class Aguia(pg.sprite.Sprite):
     #construtor da classe
@@ -142,8 +140,8 @@ class Aguia(pg.sprite.Sprite):
  
         #sorteia velocidade inicial
 
-        self.speedx= 0
-        self.speedy= -3
+        self.speedx= -velocidade
+        self.speedy= 0
         
     def update(self):
         
@@ -233,7 +231,8 @@ def tela_play():
     
     while running:
         clock.tick(FPS)
-        
+
+            
         if cont_Mob == intervalo_Mob:
             mob = Mob(WIDTH, 260)
             all_sprites.add(mob)
@@ -243,13 +242,15 @@ def tela_play():
 
         if cont_aguia == intervalo_aguia:
             aguia = Aguia(WIDTH, 235)
-            aguia.speedx -= 5
+            aguia.speedx -= velocidade
             all_sprites.add(aguia)
             all_aguias.add(aguia)
             cont_aguia = 0
             intervalo_aguia = random.randint(500, 1000)            
             
-        
+
+            #all_mobs.speedx = -800
+            
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
@@ -280,8 +281,8 @@ def tela_play():
         cont_aguia+=1
         cont_life+=1
                
-        background_rect1.x -=3              
-        background_rect2.x -=3
+        background_rect1.x -= velocidade             
+        background_rect2.x -= velocidade
         screen.blit(background, background_rect1)
         screen.blit(background, background_rect2)
         if background_rect1.x<0:
@@ -301,7 +302,7 @@ def tela_play():
 #        text_rect = text_surface.get_rect()
 #        text_rect.bottomleft = (10, HEIGHT - 10)
 #        screen.blit(text_surface, text_rect)
-        print(player.vida)
+        #print(player.vida)
             
         prob_vida = random.randint(240,1000)
 
@@ -324,8 +325,18 @@ def tela_play():
         text_rect.midtop = (WIDTH / 2,  10)
         screen.blit(text_surface, text_rect)         
         pg.display.flip()
+        print(score)
+        if score>= 500: 
+            #velocidade = -200   
+            aguia.speedx = -5
+            mob.speedx = -4
+            #vida.speedx=-10
+            background_rect1.x -= 4
+            background_rect2.x -= 4
+   
 
-        
+          
+            
         if player.vida == 0:
             running = False
     
@@ -361,9 +372,10 @@ def tela_final():
 try: 
     running = True
     while running:
+
         tela_inicial()
         tela_play()
-
+        
         running = tela_final()
 
         
