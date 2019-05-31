@@ -30,10 +30,13 @@ WHITE = (255,255,255)
 class Player(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        player_img = pg.image.load(path.join(img_dir,"Dino.png")).convert()
-        self.image = player_img
-        self.image = pg.transform.scale(player_img, (30, 30))
-        self.image.set_colorkey(WHITE)
+        self.imgs = {}
+        self.imgs[0] = pg.transform.scale(pg.image.load(path.join(img_dir,"Dino1.png")).convert(), (30, 30))
+        self.imgs[1] = pg.transform.scale(pg.image.load(path.join(img_dir,"Dino2.png")).convert(), (30, 30))
+        self.imgs[0].set_colorkey(WHITE)
+        self.imgs[1].set_colorkey(WHITE)
+        self.img_index = 0
+        self.image = self.imgs[self.img_index]
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT -50 
@@ -42,6 +45,7 @@ class Player(pg.sprite.Sprite):
         self.vida=3
         
     def update(self):
+        self.image = self.imgs[self.img_index]
         self.rect.y += self.speedy
         self.speedy += GRAVITY
 
@@ -225,6 +229,7 @@ def tela_play():
     intervalo_aguia = random.randint(FPS//2, 3*FPS)
     cont_life=0
     prob_vida = random.randint(FPS//2, 3*FPS) 
+    cont = 0
 
     running = True
     score = 0
@@ -307,6 +312,9 @@ def tela_play():
         prob_vida = random.randint(240,1000)
 
 
+        if (cont % 8) == 0:
+            player.img_index = (player.img_index + 1) % 2 
+        cont += 1
 
 
      
