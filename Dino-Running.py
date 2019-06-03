@@ -301,14 +301,7 @@ def tela_play():
             all_vida.speedx= -11
 
         if player.vida == 0:
-            #S = str(score)
-            s.append(score)
-            #with open('score.txt','a') as arquivo:
-             #   arquivo.write(s + '\n')
-            #with open('score.txt','r') as arquivo:
-             #   conteudo = arquivo.readline()
-            
-            
+            s.append(score)      
             clock.tick(FPS)
             screen.blit(TF, TF.get_rect())
             text_surface = score_font.render("{:08d}".format(max(s)), True, WHITE)
@@ -317,7 +310,7 @@ def tela_play():
             screen.blit(text_surface, text_rect)         
             pg.display.flip()
             running = False
-        print(s)
+            
 def tela_final():
     running = True
 
