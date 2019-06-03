@@ -143,6 +143,7 @@ screen = pg.display.set_mode((WIDTH, HEIGHT))
 pg.display.set_caption("Dino Run")
 clock = pg.time.Clock()
 
+
 def tela_inicial():
         # Loop principal.
     running = True
@@ -159,7 +160,7 @@ def tela_inicial():
 
         screen.blit(TI, TI.get_rect())
         pg.display.flip()
-
+s =[]
 def tela_play():
     player.vida = 3
     cont_Mob = 0
@@ -175,7 +176,6 @@ def tela_play():
     
     while running:
         clock.tick(FPS)
-          
         if cont_Mob == intervalo_Mob:
             mob = Mob(WIDTH, 260)
             all_sprites.add(mob)
@@ -216,6 +216,7 @@ def tela_play():
         if not hits:
             
             score += 1
+            
         if hits:
             
            player.vida-=1
@@ -227,7 +228,6 @@ def tela_play():
         cont_Mob += 1
         cont_aguia+=1
         cont_life+=1
-               
         background_rect1.x -= velocidade             
         background_rect2.x -= velocidade
         screen.blit(background, background_rect1)
@@ -247,6 +247,7 @@ def tela_play():
         if (cont % 8) == 0:
             player.img_index = (player.img_index + 1) % 2 
         cont += 1
+        
         all_sprites.draw(screen)
 
         text_surface = score_font.render("{:d}".format(player.vida), True, RED)
@@ -298,17 +299,32 @@ def tela_play():
             aguia.speedx = -12
             mob.speedx = -11
             all_vida.speedx= -11
-    
-        if player.vida == 0:
-            running = False
 
+        if player.vida == 0:
+            #S = str(score)
+            s.append(score)
+            #with open('score.txt','a') as arquivo:
+             #   arquivo.write(s + '\n')
+            #with open('score.txt','r') as arquivo:
+             #   conteudo = arquivo.readline()
+            
+            
+            clock.tick(FPS)
+            screen.blit(TF, TF.get_rect())
+            text_surface = score_font.render("{:08d}".format(max(s)), True, WHITE)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (WIDTH / 2,  10)
+            screen.blit(text_surface, text_rect)         
+            pg.display.flip()
+            running = False
+        print(s)
 def tela_final():
     running = True
-    while running:
+
+    while running:  
+            
+
         
-        clock.tick(FPS)
-        screen.blit(TF, TF.get_rect())
-        pg.display.flip()
         for event in pg.event.get():
             
             if event.type == pg.KEYDOWN:
@@ -330,7 +346,7 @@ try:
 
         tela_inicial()
         tela_play()
-        
+
         running = tela_final()
 finally:
     pg.quit()
